@@ -6,7 +6,7 @@
 <p> Author: Novozhilova Anna Vladimirovna
 <p> Lab: Lab1
 <p> Date of create: 17.09.2022
-<p> Date of finished: 11.10.2022
+<p> Date of finished: 03.10.2022
 
 <h4>Отчёт о выполнении лабораторной работы</h4>
 
