@@ -1,0 +1,42 @@
+- name: Configure routers
+hosts: routers
+gather_facts: false
+tasks:
+  - name: Create new user
+    routeros_command:
+      commands :
+        - /user add name=anna password=1234 group=full
+  - name: NTP Client
+    routeros_command:
+      commands :
+        - /system ntp client set enabled yes primary-ntp [:resolve @.ru.pool.ntp.org] secondary-ntp [:resolve 1.ru.pool.ntp.org]
+  - name: Set OSPF
+    routeros_command:
+      commands :
+        - /ip address add address={{ rid }} interface-ether2 network=10.10.1.0/30
+	- /routing ospf instance add name=instance-{{ inventory hostname }} router-id={{ rid }}
+	- /routing ospf area add instance-instance-{{ inventory hostname }} name=areal
+	- /routing ospf network add network=10.10.1.0/3@ area=areal
+
+ 
+
+ 
+
+- name: Get information about routers
+hosts: routers
+gather_facts: false
+tasks:
+  - name: Collect config from device
+    register: configuration
+    community.routeros.facts:
+      gather_subset:
+        - config
+  - name: Collect OSPF topology
+    register: ospf
+    routeros_command:
+      commands :
+	- /routing ospf neighbor print
+  - name: Copy info into file
+    copy:
+      content: "Configuration \n {{ configuration }} \n OSPF topology \n {{ ospf }}"
+      dest: "{{ inventory hostname }}_router_config.txt"
