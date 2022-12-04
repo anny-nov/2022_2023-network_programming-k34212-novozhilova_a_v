@@ -1,0 +1,16 @@
+---
+- name: Get configuration information from Netbox
+  connection: local
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+    - name: Save chr1 inforation into config file
+      copy:
+        content: "{{ hostvars.chr1 }}"
+        dest: ./configs/chr1_config
+    -  name: Save chr2 inforation into config file
+       copy:
+         content: "{{ hostvars.chr2 }}"
+         dest: ./configs/chr2_config

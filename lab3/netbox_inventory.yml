@@ -1,0 +1,10 @@
+---
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8001/
+token: 543a8137d281a919af88f08e516c39066d54e70f
+validate_certs: False
+config_context: False
+group_by:
+   - device_roles
+compose: {ansible_network_os: community.routeros.routeros, ansible_connection: ansible.netcommon.network_cli}
+interfaces: 'True'

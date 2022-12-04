@@ -1,0 +1,19 @@
+---
+- name: Use Netbox information to change routers configuration
+  hosts: device_roles_router
+  gather_facts: false
+  vars:
+    - ansible_network_os: community.routeros.routeros
+    - ansible_connection: ansible.netcommon.network_cli
+    - ansible_user: admin
+    - ansible_ssh_pass: FyyF2001
+
+  tasks:
+    - name: Change routers' name
+      routeros_command:
+        commands: /system identity set name="{{ inventory_hostname }}"
+    - name: Add IP to routers
+      routeros_command:
+        commands:
+          - /interface bridge add name="{{ interfaces[3].display }}"
+          - /ip address add address="{{ interfaces[3].ip_addresses[0].address }}" interface="{{ interfaces[3].display }}"
