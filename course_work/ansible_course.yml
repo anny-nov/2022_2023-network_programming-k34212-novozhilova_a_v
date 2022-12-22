@@ -1,0 +1,10 @@
+---
+- name: Create AWS Architecture
+  hosts: coursework
+  gather_facts: false
+
+  tasks:
+    - name: Install NGINX
+      apt:
+        name=nginx
+        state=latest
